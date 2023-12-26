@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "https://todoapp-backend-sigr.onrender.com/api/todos";
+const baseURL = "https://todoapp-backend-bo9m.onrender.com/api/todos";
 
 export const addTodo = async (input) => {
   try {
