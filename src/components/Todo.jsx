@@ -80,7 +80,7 @@ const Todo = () => {
   return (
     <div className="container mx-auto p-5 text-center">
       <h1 className="text-3xl font-bold p-4">TODO APP</h1>
-      <form onSubmit={handleSubmit} className="max-w-2xl my-5 mx-auto p-3 ">
+      <form onSubmit={handleSubmit} className="max-w-2xl border rounded-md shadow-sm my-5 mx-auto p-3 ">
         <input
           name="todo"
           value={input.todo}
