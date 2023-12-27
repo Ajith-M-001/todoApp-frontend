@@ -102,7 +102,7 @@ const Todo = () => {
 
       {todos.length === 0 ? (
         <>
-          <div className="max-w-lg mx-auto p-5 rounded-md border shadow-sm">
+          <div className="max-w-2xl mx-auto p-5 rounded-md border shadow-sm">
             <p className="h-72 flex  justify-center items-center">
               No tasks available
             </p>
