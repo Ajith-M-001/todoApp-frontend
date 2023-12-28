@@ -80,7 +80,10 @@ const Todo = () => {
   return (
     <div className="container mx-auto p-5 text-center">
       <h1 className="text-3xl font-bold p-4">TODO APP</h1>
-      <form onSubmit={handleSubmit} className="max-w-2xl border rounded-md shadow-sm my-5 mx-auto p-3 ">
+      <form
+        onSubmit={handleSubmit}
+        className="max-w-2xl border rounded-md shadow-sm my-5 mx-auto p-3 "
+      >
         <input
           name="todo"
           value={input.todo}
@@ -110,47 +113,53 @@ const Todo = () => {
         </>
       ) : (
         <>
-          <div className="max-w-2xl mx-auto p-5 rounded-md border shadow-sm">
-            <ul className="max-h-80 overflow-y-auto">
-              {todos.map((item) => (
-                <li
-                  key={item._id}
-                  className="flex justify-between items-center text-xl py-2 border-b-2 "
-                >
-                  <div
-                    onClick={() => handleToggle(item._id, item.done)}
-                    className="flex items-center space-x-4 cursor-pointer"
+          {isLoading ? (
+            <p>Loadind..</p>
+          ) : (
+            <div className="max-w-2xl mx-auto p-5 rounded-md border shadow-sm">
+              <ul className="max-h-80 overflow-y-auto">
+                {todos.map((item) => (
+                  <li
+                    key={item._id}
+                    className="flex justify-between items-center text-xl py-2 border-b-2 "
                   >
-                    {item.done ? (
-                      <>
-                        <GiCheckMark className="text-green-600" />
-                      </>
-                    ) : (
-                      <>
-                        <GiCrossMark className="text-gray-600" />
-                      </>
-                    )}
-
-                    <p
-                      className={item.done ? "line-through text-left" : "text-left" }
+                    <div
+                      onClick={() => handleToggle(item._id, item.done)}
+                      className="flex items-center space-x-4 cursor-pointer"
                     >
-                      {item.todo}
-                    </p>
-                  </div>
-                  <div className="flex items-center space-x-4 cursor-pointer">
-                    <BiSolidEditAlt
-                      onClick={() => handleEdit(item._id, item.todo)}
-                      className="text-blue-600"
-                    />
-                    <MdDelete
-                      onClick={() => handleDelete(item._id)}
-                      className="text-red-600"
-                    />
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+                      {item.done ? (
+                        <>
+                          <GiCheckMark className="text-green-600" />
+                        </>
+                      ) : (
+                        <>
+                          <GiCrossMark className="text-gray-600" />
+                        </>
+                      )}
+
+                      <p
+                        className={
+                          item.done ? "line-through text-left" : "text-left"
+                        }
+                      >
+                        {item.todo}
+                      </p>
+                    </div>
+                    <div className="flex items-center space-x-4 cursor-pointer">
+                      <BiSolidEditAlt
+                        onClick={() => handleEdit(item._id, item.todo)}
+                        className="text-blue-600"
+                      />
+                      <MdDelete
+                        onClick={() => handleDelete(item._id)}
+                        className="text-red-600"
+                      />
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </>
       )}
       <div className="flex mt-5 justify-between items-center text-center rounded-md shadow-sm border max-w-2xl mx-auto p-5">
