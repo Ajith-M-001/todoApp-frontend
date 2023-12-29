@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import {MagnifyingGlass} from 'react-loader-spinner'
 import {
   addTodo,
   deleteTodo,
@@ -25,8 +26,10 @@ const Todo = () => {
 
   const loadAllTODOS = async () => {
     try {
+      setIsLoading(true);
       const response = await getAllTodos();
       setTodos(response);
+      setIsLoading(false);
     } catch (error) {
       console.log(`Failed to fetch all todos `);
     }
@@ -103,65 +106,74 @@ const Todo = () => {
         </button>
       </form>
 
-      {todos.length === 0 ? (
-        <>
-          <div className="max-w-2xl mx-auto p-5 rounded-md border shadow-sm">
-            <p className="h-72 flex  justify-center items-center">
-              No tasks available
-            </p>
-          </div>
-        </>
+      {isLoading ? (
+        <div className="max-w-2xl flex justify-center items-center h-80 mx-auto p-5 rounded-md border shadow-sm">
+          {/* <p>Loading...</p> */}
+          <MagnifyingGlass
+            visible={true}
+            height="80"
+            width="80"
+            ariaLabel="magnifying-glass-loading"
+            wrapperStyle={{}}
+            wrapperClass="magnifying-glass-wrapper"
+            glassColor="#c0efff"
+            color="#e15b64"
+          />
+        </div>
+      ) : todos.length === 0 ? (
+        <div className="max-w-2xl mx-auto p-5 rounded-md border shadow-sm">
+          <p className="h-72 flex justify-center items-center">
+            No tasks available
+          </p>
+        </div>
       ) : (
         <>
-          {isLoading ? (
-            <p>Loadind..</p>
-          ) : (
-            <div className="max-w-2xl mx-auto p-5 rounded-md border shadow-sm">
-              <ul className="max-h-80 overflow-y-auto">
-                {todos.map((item) => (
-                  <li
-                    key={item._id}
-                    className="flex justify-between items-center text-xl py-2 border-b-2 "
+          <div className="max-w-2xl mx-auto p-5 rounded-md border shadow-sm">
+            <ul className="max-h-80 overflow-y-auto">
+              {todos.map((item) => (
+                <li
+                  key={item._id}
+                  className="flex justify-between items-center text-xl py-2 border-b-2 "
+                >
+                  <div
+                    onClick={() => handleToggle(item._id, item.done)}
+                    className="flex items-center space-x-4 cursor-pointer"
                   >
-                    <div
-                      onClick={() => handleToggle(item._id, item.done)}
-                      className="flex items-center space-x-4 cursor-pointer"
-                    >
-                      {item.done ? (
-                        <>
-                          <GiCheckMark className="text-green-600" />
-                        </>
-                      ) : (
-                        <>
-                          <GiCrossMark className="text-gray-600" />
-                        </>
-                      )}
+                    {item.done ? (
+                      <>
+                        <GiCheckMark className="text-green-600" />
+                      </>
+                    ) : (
+                      <>
+                        <GiCrossMark className="text-gray-600" />
+                      </>
+                    )}
 
-                      <p
-                        className={
-                          item.done ? "line-through text-left" : "text-left"
-                        }
-                      >
-                        {item.todo}
-                      </p>
-                    </div>
-                    <div className="flex items-center space-x-4 cursor-pointer">
-                      <BiSolidEditAlt
-                        onClick={() => handleEdit(item._id, item.todo)}
-                        className="text-blue-600"
-                      />
-                      <MdDelete
-                        onClick={() => handleDelete(item._id)}
-                        className="text-red-600"
-                      />
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+                    <p
+                      className={
+                        item.done ? "line-through text-left" : "text-left"
+                      }
+                    >
+                      {item.todo}
+                    </p>
+                  </div>
+                  <div className="flex items-center space-x-4 cursor-pointer">
+                    <BiSolidEditAlt
+                      onClick={() => handleEdit(item._id, item.todo)}
+                      className="text-blue-600"
+                    />
+                    <MdDelete
+                      onClick={() => handleDelete(item._id)}
+                      className="text-red-600"
+                    />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         </>
       )}
+
       <div className="flex mt-5 justify-between items-center text-center rounded-md shadow-sm border max-w-2xl mx-auto p-5">
         <div>
           <p>Total tasks</p>
